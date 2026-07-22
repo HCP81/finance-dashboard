@@ -1,0 +1,34 @@
+name: Daily Financial News Auto Updater
+
+    on:
+      schedule:
+        # 台灣時間每天早上 08:00 自動執行
+        - cron: '0 0 * * *'
+      workflow_dispatch: # 支援在 GitHub 網頁隨時點擊手動更新！
+
+    jobs:
+      update-news:
+        runs-on: ubuntu-latest
+        permissions:
+          contents: write
+
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+
+          - name: Set up Python 3.x
+            uses: actions/setup-python@v5
+            with:
+              python-version: '3.x'
+
+          - name: Run News Auto-Updater Script
+            run: |
+              python update_news.py
+
+          - name: Commit and Push Updated News Data
+            run: |
+              git config --global user.name "github-actions[bot]"
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+              git add app.js
+              git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 自動發布：每日最新財經與房市情報資料庫
+  [$(date +'%Y-%m-%d')]" && git push)
