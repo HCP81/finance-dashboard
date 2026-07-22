@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智財經 Global & Local Finance Hub | 台美股·AI科技·台灣房市情報</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+  <!-- Top Navigation Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>智財經 <span>Finance Hub</span></h1>
+          <p class="tagline">台美股 · AI產業 · 台灣房地產 每日白話情報</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="live-date" id="current-date">2026年7月23日 星期四</div>
+        
+        <!-- Audio Player Controls: Play, Pause, Stop -->
+        <div class="audio-player-widget">
+          <div class="audio-status-pill" id="audio-status-pill">
+            <span class="audio-indicator-dot" id="audio-indicator-dot"></span>
+            <span class="audio-status-text" id="audio-status-text">語音廣播站</span>
+          </div>
+          <div class="audio-btn-group">
+            <button class="btn btn-audio-ctrl btn-play" id="audio-play-btn" title="播放摘要新聞">
+              <span class="icon">▶️</span> <span class="lbl">播放</span>
+            </button>
+            <button class="btn btn-audio-ctrl btn-pause" id="audio-pause-btn" title="暫停朗讀" disabled>
+              <span class="icon">⏸️</span> <span class="lbl">暫停</span>
+            </button>
+            <button class="btn btn-audio-ctrl btn-stop" id="audio-stop-btn" title="停止朗讀" disabled>
+              <span class="icon">⏹️</span> <span class="lbl">停止</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn btn-icon" id="bookmarks-btn" title="查看已收藏新聞">
+          <span class="icon">⭐</span>
+          <span class="badge" id="bookmark-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Market Index Ticker Banner -->
+  <section class="ticker-section">
+    <div class="section-container">
+      <div class="ticker-header">
+        <span class="pulse-dot"></span>
+        <span class="ticker-title">即時市場與指標 (Market Overview)</span>
+      </div>
+      <div class="market-cards-grid" id="market-cards-container">
+        <!-- Injected dynamically via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Digest Highlights (30秒懶人包) -->
+  <section class="digest-section">
+    <div class="section-container">
+      <div class="digest-banner">
+        <div class="digest-header">
+          <div class="digest-title-badge">🚀 今日 30 秒極速懶人包</div>
+          <h2>三分鐘掌握「台美股、AI產業與台灣房市」三大焦點</h2>
+        </div>
+        <div class="digest-cards" id="digest-cards-container">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout: Filters + News Grid + Sidebar -->
+  <main class="main-content">
+    <div class="section-container content-wrapper">
+      
+      <!-- Left / Top Filters & Search -->
+      <div class="control-panel">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="news-search" placeholder="搜尋關鍵字（例如：台積電、輝達、央行房貸、預售屋...）">
+          <button class="clear-search" id="clear-search" style="display:none;">✕</button>
+        </div>
+
+        <div class="category-tabs" id="category-tabs">
+          <button class="tab-btn active" data-category="all">✨ 全部主題</button>
+          <button class="tab-btn" data-category="taiwan-us-stock">📈 台美股焦點</button>
+          <button class="tab-btn" data-category="ai-tech">🤖 AI產業鏈</button>
+          <button class="tab-btn" data-category="taiwan-housing">🏠 台灣房地產</button>
+          <button class="tab-btn" data-category="global-macro">🌐 國際總經</button>
+        </div>
+
+        <div class="filter-pills">
+          <span class="pill-label">看法篩選：</span>
+          <button class="pill-btn active" data-sentiment="all">全部</button>
+          <button class="pill-btn sentiment-bullish" data-sentiment="bullish">📈 利多熱點</button>
+          <button class="pill-btn sentiment-bearish" data-sentiment="bearish">📉 利空警示</button>
+          <button class="pill-btn sentiment-neutral" data-sentiment="neutral">⚖️ 中立觀察</button>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <!-- Main News Column -->
+        <div class="news-column">
+          <div class="news-header-meta">
+            <h3 class="news-list-title" id="current-category-name">今日最新情報</h3>
+            <span class="news-count" id="news-count-label">共 6 條焦點動態</span>
+          </div>
+
+          <div class="news-grid" id="news-grid-container">
+            <!-- News Cards Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Sidebar Column: Real Estate & AI Ecosystem Special Widgets -->
+        <aside class="sidebar-column">
+          
+          <!-- Taiwan Housing Market Special Widget -->
+          <div class="widget-card housing-widget">
+            <div class="widget-header">
+              <span class="widget-icon">🏠</span>
+              <h3>台灣房市觀察與政策指南</h3>
+            </div>
+            <div class="widget-body">
+              <div class="policy-badge">央行第七波信用管制效應</div>
+              <p class="widget-desc">六都最新買賣移轉與房貸利率速覽</p>
+
+              <div class="stat-rows">
+                <div class="stat-row">
+                  <span class="stat-name">新青安房貸利率</span>
+                  <span class="stat-val highlight">1.775% 起</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-name">首購族第二戶貸款上限</span>
+                  <span class="stat-val warning">最高 5 成</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-name">六都交易熱度變化</span>
+                  <span class="stat-val down">▼ 價平量縮觀望中</span>
+                </div>
+              </div>
+
+              <div class="housing-tips-box">
+                <strong>💡 給購屋族的白話建議：</strong>
+                <p>目前受限於成數與銀行放款總量管制，建議自住首購族優先申辦青安專案，預售屋換約與非首購族請特別注意現金流排程！</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Supply Chain Spotlight Widget -->
+          <div class="widget-card ai-widget">
+            <div class="widget-header">
+              <span class="widget-icon">🤖</span>
+              <h3>台美 AI 供應鏈動態圖解</h3>
+            </div>
+            <div class="widget-body">
+              <div class="chain-step">
+                <div class="step-tag tag-us">美股上游領航</div>
+                <div class="step-title">NVIDIA / AMD / Microsoft</div>
+                <div class="step-status bullish">AI 伺服器晶片與雲端需求強勁 🚀</div>
+              </div>
+              <div class="chain-arrow">⬇️ 晶片代工與高階封裝</div>
+              <div class="chain-step">
+                <div class="step-tag tag-tw">台股核心製造</div>
+                <div class="step-title">台積電 (TSMC)</div>
+                <div class="step-status bullish">3nm/2nm & CoWoS 產能滿載 📈</div>
+              </div>
+              <div class="chain-arrow">⬇️ 伺服器組裝與周邊散熱</div>
+              <div class="chain-step">
+                <div class="step-tag tag-tw">台股下游組裝</div>
+                <div class="step-title">廣達 · 緯創 · 奇鋐 · 台達電</div>
+                <div class="step-status neutral">水冷散熱與高階電源出貨比重提升 ⚡</div>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- News Detail Modal Modal -->
+  <div class="modal-backdrop" id="news-modal" style="display: none;">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+      <div class="modal-header" id="modal-header-content">
+        <!-- JS Injected -->
+      </div>
+      <div class="modal-body" id="modal-body-content">
+        <!-- JS Injected -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-audio" id="modal-tts-btn">🔊 朗讀本篇內容</button>
+        <button class="btn btn-primary" id="modal-bookmark-btn">⭐ 收藏這篇新聞</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookmarks Drawer / Modal -->
+  <div class="modal-backdrop" id="bookmarks-modal" style="display: none;">
+    <div class="modal-card drawer-card">
+      <button class="modal-close" id="bookmarks-close-btn">&times;</button>
+      <div class="modal-header">
+        <h2>⭐ 我收藏的財經情報</h2>
+      </div>
+      <div class="modal-body" id="bookmarks-list-container">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="section-container footer-content">
+      <p>© 2026 智財經 Global & Local Finance Hub · 專為台美股與台灣房市打造的白話極簡情報網</p>
+      <p class="disclaimer">註：本站資訊僅供新聞資訊與學習交流參考，不構成任何個人化投資或買房決策建議。</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
